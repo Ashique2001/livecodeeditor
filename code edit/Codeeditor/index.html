@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Code Editor</title>
+    <!-- Include CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
+    <!-- Theme for CodeMirror -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/dracula.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .editor-container {
+            display: flex;
+            flex: 1;
+        }
+        #editor {
+            flex: 1;
+            border-right: 1px solid #ddd;
+            height: 100%;
+        }
+        #preview {
+            flex: 1;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="editor-container">
+        <textarea id="editor"></textarea>
+        <iframe id="preview"></iframe>
+    </div>
+
+    <!-- Include CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closetag.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
+    
+    <script>
+        // Initialize CodeMirror
+        var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+            mode: "htmlmixed",
+            theme: "dracula",
+            lineNumbers: true,
+            autoCloseTags: true,
+            autoCloseBrackets: true
+        });
+
+        // Function to update preview
+        function updatePreview() {
+            var previewFrame = document.getElementById('preview');
+            var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+            preview.open();
+            preview.write(editor.getValue());
+            preview.close();
+        }
+
+        // Set event listener on the editor
+        editor.on('change', updatePreview);
+
+        // Set initial content
+        editor.setValue(`<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Preview</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { color: #333; }
+    </style>
+</head>
+<body>
+    <h1>Hello, world!</h1>
+    <p>Edit the HTML, CSS, or JavaScript above to see the changes.</p>
+</body>
+</html>`);
+    </script>
+</body>
+</html>
