@@ -1,0 +1,1 @@
+LiveCode Editor is a web-based, real-time code editor that allows users to write, edit, and preview HTML, CSS, and JavaScript code live in the browser. It’s an interactive tool for developers to test and visualize code changes instantly, making it ideal for quick prototyping and learning.
